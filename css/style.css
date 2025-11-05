@@ -67,12 +67,12 @@
 
         .menu-container {
             position: absolute;
-            top: 50%; 
+            top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: var(--menu-size);
             height: var(--menu-size);
-   /*          margin: 0 auto; */
+            /*          margin: 0 auto; */
             transition: all 0.5s ease;
         }
 
@@ -186,8 +186,8 @@
         .content-view {
             display: none;
             animation: fadeIn 0.5s ease;
-               width: 100%;
-    position: relative;
+            width: 100%;
+            position: relative;
         }
 
         .content-view.active {
@@ -238,34 +238,34 @@
             text-shadow: 0 0 20px rgba(125, 234, 176, 0.3);
         }
 
-       /* Flexbox fallback for older browsers */
-.items-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    max-width: 1000px;
-    margin: 0 auto;
-    justify-content: center;
-}
+        /* Flexbox fallback for older browsers */
+        .items-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            max-width: 1000px;
+            margin: 0 auto;
+            justify-content: center;
+        }
 
-.items-grid>* {
-    flex: 1 1 calc(50% - 12.5px);
-    min-width: 0;
-}
+        .items-grid>* {
+            flex: 1 1 calc(50% - 12.5px);
+            min-width: 0;
+        }
 
-/* Modern grid for supported browsers */
-@supports (display: grid) {
-    .items-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        max-width: 800px;
-        margin: 0 auto;
-    }
+        /* Modern grid for supported browsers */
+        @supports (display: grid) {
+            .items-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                max-width: 800px;
+                margin: 0 auto;
+            }
 
-    .items-grid>* {
-        flex: none;
-    }
-}
+            .items-grid>* {
+                flex: none;
+            }
+        }
 
         .item-card {
             background: transparent;
@@ -367,7 +367,41 @@
             }
         }
 
+        /* NEW */
+
+        :root {
+            --menu-size: min(85vw, 85vh, 450px);
+            --circle-size: calc(var(--menu-size) * 0.32);
+            --item-size: calc(var(--menu-size) * 0.32);
+            --icon-size: calc(var(--item-size) * 0.3);
+            --label-size: calc(var(--item-size) * 0.12);
+        }
+
+        .menu-item {
+            /* Larger touch targets for mobile */
+            min-width: 90px;
+            min-height: 90px;
+        }
+
+        .menu-container {
+            /* Ensure menu fits comfortably on mobile */
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+    
+
         @media (max-width: 480px) {
+            :root {
+                --menu-size: min(90vw, 90vh, 400px);
+                --item-size: calc(var(--menu-size) * 0.34);
+            }
+
+            .menu-item {
+                /* Even larger touch targets for small phones */
+                min-width: 100px;
+                min-height: 100px;
+            }
+
             body {
                 padding: 10px;
             }
@@ -397,14 +431,20 @@
         /* Landscape mobile optimization */
         @media (max-width: 768px) and (orientation: landscape) {
             :root {
-                --menu-size: min(90vw, 70vh, 500px);
+                --menu-size: min(85vw, 65vh, 450px);
             }
 
             body {
                 align-items: flex-start;
                 padding-top: 20px;
             }
+
+            .menu-container {
+                margin-top: 30px;
+            }
         }
+
+        /* NEW ends*/
 
         #matrixCanvas {
             position: fixed;

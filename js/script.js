@@ -103,6 +103,12 @@ let isDragging = false;
 let dragStartAngle = 0;
 let rotationAtDragStart = 0;
 
+//NEW
+let dragThreshold = 15; // pixels movement required to trigger drag
+let dragDistance = 0;
+let touchStartX = 0;
+let touchStartY = 0;
+
 // Position items on the circular path
 function positionItems() {
     const angleStep = (2 * Math.PI) / 3;
@@ -141,79 +147,115 @@ function sanitizeText(text) {
     div.textContent = text;
     return div.textContent;
 }
-
+//NEW
 menuItems.forEach(item => {
     item.addEventListener('click', (e) => {
-        if (!isDragging) {
+        if (!isDragging && dragDistance < dragThreshold) {
             const category = item.getAttribute('data-category');
             showCategory(category);
         }
         e.stopPropagation();
     });
 
-    // Mouse events
+    // Mouse events NEW
     item.addEventListener('mousedown', (e) => {
         isDragging = false;
+        dragDistance = 0;
         dragStartAngle = getAngleFromCenter(e.clientX, e.clientY);
         rotationAtDragStart = currentRotation;
         e.preventDefault();
     });
 
-    // Touch events with passive: false for preventDefault
-    item.addEventListener('touchstart', (e) => {
-        isDragging = false;
-        const touch = e.touches[0];
-        dragStartAngle = getAngleFromCenter(touch.clientX, touch.clientY);
-        rotationAtDragStart = currentRotation;
-        e.preventDefault();
-    }, { passive: false });
+// Touch events with passive: false for preventDefault NEW
+item.addEventListener('touchstart', (e) => {
+    isDragging = false;
+    dragDistance = 0;
+    const touch = e.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    dragStartAngle = getAngleFromCenter(touch.clientX, touch.clientY);
+    rotationAtDragStart = currentRotation;
 
-    // Add touchend handler to detect tap vs drag
-    item.addEventListener('touchend', (e) => {
-        if (!isDragging && dragStartAngle !== 0) {
+    // NEW - Visual feedback (this should be INSIDE the touchstart handler)
+    item.style.transition = 'transform 0.1s ease';
+    const currentTransform = item.style.transform;
+    item.style.transform = currentTransform + ' scale(0.95)';
+    
+    e.preventDefault();
+}, { passive: false });
+
+    // Add touchend handler to detect tap vs drag NEW
+   item.addEventListener('touchend', (e) => {
+        // Only trigger navigation if it was a tap (not a drag)
+        if (!isDragging && dragDistance < dragThreshold) {
             const category = item.getAttribute('data-category');
             showCategory(category);
             e.preventDefault();
         }
+
+
+    //NEW Reset visual feedback
+        setTimeout(() => {
+            item.style.transition = 'all 0.3s ease';
+            positionItems();
+            dragDistance = 0;
+        }, 50);
     }, { passive: false });
 });
 
-// Mouse move handler
+// Mouse move handler NEW
 document.addEventListener('mousemove', (e) => {
     if (dragStartAngle !== 0) {
-        isDragging = true;
         const currentAngle = getAngleFromCenter(e.clientX, e.clientY);
         const angleDiff = currentAngle - dragStartAngle;
+        
+        // Calculate drag distance
+        dragDistance = Math.abs(angleDiff * radius);
+        
+        if (dragDistance > dragThreshold) {
+            isDragging = true;
+        }
+        
         currentRotation = rotationAtDragStart + angleDiff;
         positionItems();
     }
 });
 
-// Touch move handler
+// Touch move handler NEW
 document.addEventListener('touchmove', (e) => {
     if (dragStartAngle !== 0) {
-        isDragging = true;
         const touch = e.touches[0];
-        const currentAngle = getAngleFromCenter(touch.clientX, touch.clientY);
-        const angleDiff = currentAngle - dragStartAngle;
-        currentRotation = rotationAtDragStart + angleDiff;
-        positionItems();
+        
+        // Calculate pixel distance moved
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        if (dragDistance > dragThreshold) {
+            isDragging = true;
+            const currentAngle = getAngleFromCenter(touch.clientX, touch.clientY);
+            const angleDiff = currentAngle - dragStartAngle;
+            currentRotation = rotationAtDragStart + angleDiff;
+            positionItems();
+        }
     }
 }, { passive: false });
 
-// Mouse up handler
+// Mouse up handler NEW
 document.addEventListener('mouseup', () => {
     dragStartAngle = 0;
     setTimeout(() => {
         isDragging = false;
+        dragDistance = 0;
     }, 100);
 });
 
-// Touch end handler
+// Touch end handler NEW
 document.addEventListener('touchend', () => {
     dragStartAngle = 0;
     setTimeout(() => {
         isDragging = false;
+        dragDistance = 0;
     }, 100);
 });
 
