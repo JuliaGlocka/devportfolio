@@ -8,7 +8,7 @@ const data = {
             linkIndex: 0
         },
 
-                {
+        {
             type: 'project',
             title: 'WeatherApp - Weather Forecast CLI Application',
             description: 'A production-ready weather forecast CLI tool built with Python 3 and PostgreSQL, demonstrating API integration, database operations, and interactive user experience design. The application leverages the Open-Meteo public weather API for 16-day forecast data, combining it with a PostgreSQL city database for intelligent location resolution that supports both local and English city names through case-insensitive pattern matching. The architecture implements clean separation between data retrieval (API layer), data persistence (PostgreSQL integration), and presentation (tabulate-formatted console output). Timezone handling spans 15 global regions with UTC offset mapping, while comprehensive error handling manages network failures and database connection issues. The modular design with single-responsibility functions promotes maintainability and testability, following Python best practices for CLI application development.',
@@ -16,7 +16,7 @@ const data = {
             linkIndex: 0
         },
 
-                        {
+        {
             type: 'project',
             title: 'Auth-System - Secure Python Authentication System',
             description: 'A secure Python-based authentication system implementing industry-standard cryptographic practices for user registration and login management. The application leverages bcrypt for adaptive password hashing with salt generation, Fernet symmetric encryption for credential protection, and PostgreSQL for persistent data storage with parameterized queries to prevent SQL injection attacks. The architecture demonstrates modular design principles with separation of concerns across distinct components: signup flow with email format validation and password complexity enforcement, login authentication with encrypted credential verification, and centralized configuration management for database connections and cryptographic key handling.\n\nSecurity implementation includes bcrypt\'s key derivation function with configurable work factors for future-proof password hashing, Fernet encryption using 256-bit AES in CBC mode with HMAC authentication for data confidentiality and integrity, and UUID generation for unique user identification. The PostgreSQL integration replaces file-based storage with ACID-compliant database transactions, supporting concurrent user operations and data consistency guarantees. The modular codebase follows single-responsibility principle with dedicated modules for encryption operations, validation logic, authentication flow, and configuration management, while input sanitization prevents duplicate email registration through database uniqueness checks.',
@@ -38,7 +38,7 @@ const data = {
             type: 'project',
             title: 'Axolotl Knight',
             tagdescription: 'Details',
-            description: 'A 3D jump-and-run platformer built with Unity. The gamee fatures 5 worlds with 5 levels each, enemy combat, obstacle navigation, and two distinct gameplay modes. Includes original art assets, storyline, and concept. Originally developed for Nintendo Switch. Due to publisher circumstances, the game is currently available on itch.io.',
+            description: 'A 3D jump-and-run platformer built with Unity. The game features 5 worlds with 5 levels each, enemy combat, obstacle navigation, and two distinct gameplay modes. Includes original art assets, storyline, and concept. Originally developed for Nintendo Switch. Due to publisher circumstances, the game is currently available on itch.io.',
             link: 'https://youtu.be/9mBrIj2PMsU',
             linkIndex: 1,
             tagrole: 'Role',
@@ -62,11 +62,11 @@ const data = {
             link: 'https://koulutuskalenteri.xamk.fi/en/open-amk-courses/introduction-to-video-games-creation-1-35-ects-cr-3/',
             linkIndex: 2,
         },
-       {
+        {
             type: 'experience',
             title: 'Syrenka Jam',
             description: 'Completed a two-week intensive game development course using Unity with the Syrenka Jam team (Farmind Studio / PlayWay). Collaborated with teammates on rapid prototyping and game production, strengthening technical skills and experience in fast-paced, collaborative game development.',
-        } 
+        }
     ]
 };
 
@@ -76,10 +76,10 @@ const menuItems = document.querySelectorAll('.menu-item');
 const rightArrow = document.getElementById('rightArrow'); */
 const menuContainer = document.getElementById('menuContainer');
 const contentView = document.getElementById('contentView');
-const categoryTitle = document.getElementById("categoryTitle").textContent = "Projects";
+const categoryTitleEl = document.getElementById("categoryTitle");
+categoryTitleEl.textContent = "Projects";
 const itemsGrid = document.getElementById('itemsGrid');
 const backButton = document.getElementById('backButton');
-const link = document.querySelector('#myLink');
 
 const linkTexts = [
     'View on GitHub →',
@@ -166,26 +166,26 @@ menuItems.forEach(item => {
         e.preventDefault();
     });
 
-// Touch events with passive: false for preventDefault NEW
-item.addEventListener('touchstart', (e) => {
-    isDragging = false;
-    dragDistance = 0;
-    const touch = e.touches[0];
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-    dragStartAngle = getAngleFromCenter(touch.clientX, touch.clientY);
-    rotationAtDragStart = currentRotation;
+    // Touch events with passive: false for preventDefault NEW
+    item.addEventListener('touchstart', (e) => {
+        isDragging = false;
+        dragDistance = 0;
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        dragStartAngle = getAngleFromCenter(touch.clientX, touch.clientY);
+        rotationAtDragStart = currentRotation;
 
-    // NEW - Visual feedback (this should be INSIDE the touchstart handler)
-    item.style.transition = 'transform 0.1s ease';
-    const currentTransform = item.style.transform;
-    item.style.transform = currentTransform + ' scale(0.95)';
-    
-    e.preventDefault();
-}, { passive: false });
+        // NEW - Visual feedback (this should be INSIDE the touchstart handler)
+        item.style.transition = 'transform 0.1s ease';
+        const currentTransform = item.style.transform;
+        item.style.transform = currentTransform + ' scale(0.95)';
+
+        e.preventDefault();
+    }, { passive: false });
 
     // Add touchend handler to detect tap vs drag NEW
-   item.addEventListener('touchend', (e) => {
+    item.addEventListener('touchend', (e) => {
         // Only trigger navigation if it was a tap (not a drag)
         if (!isDragging && dragDistance < dragThreshold) {
             const category = item.getAttribute('data-category');
@@ -194,7 +194,7 @@ item.addEventListener('touchstart', (e) => {
         }
 
 
-    //NEW Reset visual feedback
+        //NEW Reset visual feedback
         setTimeout(() => {
             item.style.transition = 'all 0.3s ease';
             positionItems();
@@ -208,14 +208,14 @@ document.addEventListener('mousemove', (e) => {
     if (dragStartAngle !== 0) {
         const currentAngle = getAngleFromCenter(e.clientX, e.clientY);
         const angleDiff = currentAngle - dragStartAngle;
-        
+
         // Calculate drag distance
         dragDistance = Math.abs(angleDiff * radius);
-        
+
         if (dragDistance > dragThreshold) {
             isDragging = true;
         }
-        
+
         currentRotation = rotationAtDragStart + angleDiff;
         positionItems();
     }
@@ -225,12 +225,12 @@ document.addEventListener('mousemove', (e) => {
 document.addEventListener('touchmove', (e) => {
     if (dragStartAngle !== 0) {
         const touch = e.touches[0];
-        
+
         // Calculate pixel distance moved
         const deltaX = touch.clientX - touchStartX;
         const deltaY = touch.clientY - touchStartY;
         dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        
+
         if (dragDistance > dragThreshold) {
             isDragging = true;
             const currentAngle = getAngleFromCenter(touch.clientX, touch.clientY);
@@ -278,7 +278,7 @@ function showCategory(category) {
         gamedev: 'Game Development'
     };
 
-    categoryTitle.textContent = titles[category];
+    categoryTitleEl.textContent = titles[category];
     itemsGrid.innerHTML = '';
 
     categoryData.forEach(item => {
@@ -339,14 +339,14 @@ function showCategory(category) {
         }
         itemsGrid.appendChild(card);
     });
-/* if (itemsGrid.children.length === 1) {
-    itemsGrid.classList.add('flex-center');      
-    itemsGrid.children[0].style.width = '800px';}
-    else if (itemsGrid.children.length <= 2) {
-        itemsGrid.classList.add('flex-center');
-    } else {
-        itemsGrid.classList.remove('flex-center');
-    } */
+    /* if (itemsGrid.children.length === 1) {
+        itemsGrid.classList.add('flex-center');      
+        itemsGrid.children[0].style.width = '800px';}
+        else if (itemsGrid.children.length <= 2) {
+            itemsGrid.classList.add('flex-center');
+        } else {
+            itemsGrid.classList.remove('flex-center');
+        } */
 
     menuContainer.classList.add('hidden');
     setTimeout(() => {
@@ -371,6 +371,7 @@ positionItems();
 
 const matrixButton = document.getElementById("matrixButton");
 let isMatrixActive = true; // start włączony
+matrixButton.classList.add("active");
 
 matrixButton.addEventListener("click", () => {
     isMatrixActive = !isMatrixActive; // zmiana stanu
@@ -393,10 +394,63 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const fontSize = 15;
-const columns = Math.floor(canvas.width / fontSize);
-const drops = Array.from({ length: columns }, () =>
+let columns = Math.floor(canvas.width / fontSize);
+let drops = Array.from({ length: columns }, () =>
     Math.floor(Math.random() * canvas.height / fontSize)
 );
+
+const UNICODE_RANGES = [
+    [0x0020, 0x007E],
+    [0x00A0, 0x024F],
+    [0x0370, 0x03FF],
+    [0x0400, 0x04FF],
+    [0x0530, 0x058F],
+    [0x0590, 0x05FF],
+    [0x0600, 0x06FF],
+    [0x0900, 0x097F],
+    [0x3040, 0x30FF],
+    [0x4E00, 0x9FFF],
+    [0x2200, 0x22FF],
+    [0x2300, 0x23FF],
+];
+
+function randomUnicodeChar() {
+    let char;
+    do {
+        const [start, end] = UNICODE_RANGES[Math.floor(Math.random() * UNICODE_RANGES.length)];
+        const code = Math.floor(start + Math.random() * (end - start));
+        char = String.fromCodePoint(code);
+    } while (/\p{Extended_Pictographic}/u.test(char)); // skip emoji/pictographic chars
+    return char;
+}
+
+function fillWithFrozenMatrix(startX, startY, width, height) {
+    // Fill with near-black background (like accumulated matrix frames)
+    context.fillStyle = 'rgb(0, 0, 0)';
+    context.fillRect(startX, startY, width, height);
+
+    context.font = fontSize + 'px monospace';
+
+    const startCol = Math.floor(startX / fontSize);
+    const endCol = Math.ceil((startX + width) / fontSize);
+
+    for (let col = startCol; col < endCol; col++) {
+        const x = col * fontSize;
+        // Draw a trail of characters in this column
+        const trailLength = Math.floor(3 + Math.random() * 8);
+        const trailStart = startY + Math.random() * (height - trailLength * fontSize);
+
+        for (let j = 0; j < trailLength; j++) {
+            const y = trailStart + j * fontSize;
+            if (y >= startY && y < startY + height) {
+                // Fade from bright to dim going down the trail
+                const opacity = 0.25 * (1 - j / trailLength);
+                context.fillStyle = `rgba(0, 255, 0, ${opacity})`;
+                context.fillText(randomUnicodeChar(), x, y);
+            }
+        }
+    }
+}
 
 function drawMatrix() {
     if (!isMatrixActive) return; // jeśli Matrix wyłączony, nic nie rysujemy
@@ -406,31 +460,6 @@ function drawMatrix() {
 
     context.fillStyle = 'rgba(0, 255, 0, 0.25)';
     context.font = fontSize + 'px monospace';
-
-    const UNICODE_RANGES = [
-        [0x0020, 0x007E],
-        [0x00A0, 0x024F],
-        [0x0370, 0x03FF],
-        [0x0400, 0x04FF],
-        [0x0530, 0x058F],
-        [0x0590, 0x05FF],
-        [0x0600, 0x06FF],
-        [0x0900, 0x097F],
-        [0x3040, 0x30FF],
-        [0x4E00, 0x9FFF],
-        [0x2200, 0x22FF],
-        [0x2300, 0x23FF],
-    ];
-
-    function randomUnicodeChar() {
-        let char;
-        do {
-            const [start, end] = UNICODE_RANGES[Math.floor(Math.random() * UNICODE_RANGES.length)];
-            const code = Math.floor(start + Math.random() * (end - start));
-            char = String.fromCodePoint(code);
-        } while (/\p{Extended_Pictographic}/u.test(char)); // skip emoji/pictographic chars
-        return char;
-    }
 
     for (let i = 0; i < drops.length; i++) {
         const text = randomUnicodeChar();
@@ -450,6 +479,49 @@ function drawMatrix() {
 setInterval(drawMatrix, 50);
 
 window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const newWidth = window.innerWidth;
+    const newHeight = window.innerHeight;
+
+    if (!isMatrixActive && canvas.width > 0 && canvas.height > 0) {
+        const oldWidth = canvas.width;
+        const oldHeight = canvas.height;
+
+        // Save current frozen content
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = oldWidth;
+        tempCanvas.height = oldHeight;
+        tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
+
+        // Resize main canvas
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        // Fill new areas with frozen matrix effect
+        if (newWidth > oldWidth) {
+            fillWithFrozenMatrix(oldWidth, 0, newWidth - oldWidth, newHeight);
+        }
+        if (newHeight > oldHeight) {
+            fillWithFrozenMatrix(0, oldHeight, oldWidth, newHeight - oldHeight);
+        }
+
+        // Restore saved content on top
+        context.drawImage(tempCanvas, 0, 0);
+    } else {
+        // Matrix is ON - just resize the canvas
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+    }
+
+    // Update columns and drops for new width
+    const newColumns = Math.floor(newWidth / fontSize);
+    if (newColumns > columns) {
+        // Add new drops for additional columns
+        for (let i = columns; i < newColumns; i++) {
+            drops.push(Math.floor(Math.random() * newHeight / fontSize));
+        }
+    } else if (newColumns < columns) {
+        // Trim excess columns
+        drops.length = newColumns;
+    }
+    columns = newColumns;
 });
