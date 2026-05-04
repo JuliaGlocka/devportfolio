@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git config:*)",
+      "Bash(dir /s \"C:\\\\Users\\\\glock\\\\PycharmProjects\\\\PythonProjectSelenium\")",
+      "Bash(.venvScriptspython.exe -m pytest -v)",
+      "Bash(\".venv/Scripts/python.exe\" -m pytest -v)"
+    ]
+  }
+}
