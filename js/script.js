@@ -385,6 +385,12 @@ matrixButton.addEventListener("click", () => {
     }
 });
 
+// === CV BUTTON ===
+
+document.getElementById("cvButton").addEventListener("click", () => {
+    alert("You have downloaded the CV");
+});
+
 
 // === MATRIX BACKGROUND EFFECT ===
 const canvas = document.getElementById('matrixCanvas');
