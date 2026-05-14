@@ -387,9 +387,9 @@ matrixButton.addEventListener("click", () => {
 
 // === CV BUTTON ===
 
-document.getElementById("cvButton").addEventListener("click", () => {
+/* document.getElementById("cvButton").addEventListener("click", () => {
     alert("You have downloaded the CV");
-});
+}); */
 
 
 // === MATRIX BACKGROUND EFFECT ===
