@@ -386,30 +386,18 @@ matrixButton.addEventListener("click", () => {
 });
 
 // === CV BUTTON ===
-function attachDownloadListener() {
-    const downloadBtn = document.getElementById("cvButton");
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("cvButton");
 
-    if (!downloadBtn) {
-        console.log("Waiting for button...");
-        return setTimeout(attachDownloadListener, 500);
+    if (!btn) {
+        console.log("Button not found");
+        return;
     }
 
-    if (downloadBtn.dataset.listenerAttached) return;
-
-    downloadBtn.dataset.listenerAttached = "true";
-
-    downloadBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        alert("You downloaded Julia's CV!");
-
-        console.log("Button clicked");
+    btn.addEventListener("click", () => {
+        alert("Download clicked!");
     });
-
-    console.log("Listener attached");
-}
-
-attachDownloadListener();
+});
 
 
 // === MATRIX BACKGROUND EFFECT ===
