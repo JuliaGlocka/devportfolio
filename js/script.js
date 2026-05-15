@@ -385,6 +385,20 @@ matrixButton.addEventListener("click", () => {
     }
 });
 
+// === CV BUTTON ===
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("cvButton");
+
+    if (!btn) {
+        console.log("Button not found");
+        return;
+    }
+
+    btn.addEventListener("click", () => {
+        alert("You downloaded Julia's CV!");
+    });
+});
+
 
 // === MATRIX BACKGROUND EFFECT ===
 const canvas = document.getElementById('matrixCanvas');
