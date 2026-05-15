@@ -386,11 +386,20 @@ matrixButton.addEventListener("click", () => {
 });
 
 // === CV BUTTON ===
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("cvButton").addEventListener("click", () => {
-        alert("You have downloaded Julia's CV!");
-    });
-});
+setTimeout(() => {
+    const downloadBtn = document.querySelector(
+        ".tui-image-editor-main-container .tui-image-editor-download-btn"
+    );
+
+    if (downloadBtn) {
+        downloadBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            alert("Download clicked!");
+        });
+    } else {
+        console.log("Button not found");
+    }
+}, 1000);
 
 
 // === MATRIX BACKGROUND EFFECT ===
