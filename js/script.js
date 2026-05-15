@@ -386,9 +386,10 @@ matrixButton.addEventListener("click", () => {
 });
 
 // === CV BUTTON ===
-
-document.getElementById("cvButton").addEventListener("click", () => {
-    alert("You have downloaded Julia's CV!");
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("cvButton").addEventListener("click", () => {
+        alert("You have downloaded Julia's CV!");
+    });
 });
 
 
