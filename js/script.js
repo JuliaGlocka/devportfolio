@@ -395,7 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     btn.addEventListener("click", () => {
-        alert("Download clicked!");
+        alert("You downloaded Julia's CV!");
     });
 });
 
