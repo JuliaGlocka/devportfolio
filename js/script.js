@@ -386,20 +386,30 @@ matrixButton.addEventListener("click", () => {
 });
 
 // === CV BUTTON ===
-setTimeout(() => {
-    const downloadBtn = document.querySelector(
-        ".tui-image-editor-main-container .tui-image-editor-download-btn"
-    );
+function attachDownloadListener() {
+    const downloadBtn = document.getElementById("cvButton");
 
-    if (downloadBtn) {
-        downloadBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            alert("Download clicked!");
-        });
-    } else {
-        console.log("Button not found");
+    if (!downloadBtn) {
+        console.log("Waiting for button...");
+        return setTimeout(attachDownloadListener, 500);
     }
-}, 1000);
+
+    if (downloadBtn.dataset.listenerAttached) return;
+
+    downloadBtn.dataset.listenerAttached = "true";
+
+    downloadBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        alert("You downloaded Julia's CV!");
+
+        console.log("Button clicked");
+    });
+
+    console.log("Listener attached");
+}
+
+attachDownloadListener();
 
 
 // === MATRIX BACKGROUND EFFECT ===
